@@ -1,13 +1,38 @@
-eureka:
- instance:
-  prefer-ip-address: true
- client:
-  fetch-registry: true
-  register-with-eureka: true
-  service-url:
-    defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka/}
+spring:
+  profiles:
+    active: dev
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Use your actual Okta domain, e.g., dev-123456.okta.com
+          issuer-uri: https://{yourOktaDomain}/oauth2/default
+      client:
+        registration:
+          okta:
+            client-id: ${OKTA_CLIENT_ID}
+            client-secret: ${OKTA_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/okta"
+            scope:
+              - openid
+              - profile
+              - email
+          internal-client:
+            provider: okta
+            client-id: ${OKTA_INTERNAL_CLIENT_ID}
+            client-secret: ${OKTA_INTERNAL_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+            scope:
+              - internal
+        provider:
+          okta:
+            issuer-uri: https://{yourOktaDomain}/oauth2/default
 
-okta:
- oauth2:
-  issuer: https://dev-bw4hsuafwgcqxetv.us.auth0.com/
-  audience: https://dev-bw4hsuafwgcqxetv.us.auth0.com/api/v2/
+stripe:
+  secret:
+    key: ${STRIPE_SECRET_KEY}
+
+logging:
+  level:
+    org.springframework.security: DEBUG
