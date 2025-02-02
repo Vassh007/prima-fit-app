@@ -6,7 +6,7 @@ spring:
       resourceserver:
         jwt:
           # Use your actual Okta domain, e.g., dev-123456.okta.com
-          issuer-uri: https://{yourOktaDomain}/oauth2/default
+          issuer-uri: https://dev-12757630.okta.com/oauth2/default
       client:
         registration:
           okta:
@@ -27,7 +27,7 @@ spring:
               - internal
         provider:
           okta:
-            issuer-uri: https://{yourOktaDomain}/oauth2/default
+            issuer-uri: https://dev-12757630.okta.com/oauth2/default
 
 stripe:
   secret:
